@@ -58,7 +58,6 @@ describe("config.js", () => {
     const httpRequest = new HttpRequest();
     httpRequest.http_client.defaults.timeout = 1500;
     const promise = httpRequest.request(headers, "https://httpstat.us/503?sleep=2500", body);
-  
     try {
       await promise;
     } catch (error) {
