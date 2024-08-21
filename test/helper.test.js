@@ -35,7 +35,7 @@ describe("helper.js", () => {
     let stringToSign = 'POST:/api/v1.0/transfer/registration:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJT05QQVlURVNUIiwiaXNzIjoiTklDRVBBWSIsIm5hbWUiOiJCQkJBIiwiZXhwIjoiMjAyMy0wMi0yMlQxMDo0MDowNloifQ==.nlrGKpV0lvwmUDTC94Y5KGnrACV1zdfSx7GrsrNruh8=:ec055a063eca97d1eb53e1ebc38cb8dfed4ce9f874b47c8214fb30250cfa9d44:2023-02-22T17:25:04+07:00'
     const signature = helper.getRegistSignature(stringToSign, cons.clientSecret)
     expect(signature).toEqual(expect.any(String));
-    expect(signature).toBe("O8D7P20kxMRdnLEnf0NEOxY0d5bQvSrKnl4fKvwklILJD9BJiQmZVX+yJTUVwb/EjDbwadQJmA0mAA8ol5IIuQ==");
+    expect(signature).toBe("i1cr9QK4IbAB4IK1DGmc60HxVqQMPNCQEDMeWIsJgXPOKP5VFjNDSTxWc7C72Yx7lD2+nCdO1dHChiVcIXcYIQ==");
   });
 
   it("able to get time now with snap format", () => {

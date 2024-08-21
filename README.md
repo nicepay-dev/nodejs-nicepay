@@ -88,7 +88,7 @@ Available methods for `Snap` class
 
 ```javascript
 // return Snap API /transaction response as Promise of Object
-requestSnapTransaction(parameter, endPoint, accessToken);
+requestSnapTransaction(parameter, endPoint, accessToken, httpMethod);
 
 // return Snap API /transaction token as Promise of String
 requestSnapAccessToken(parameter);
@@ -130,7 +130,7 @@ let parameter = {
   //request headers
   headers:{
     X_EXTERNAL_ID: Date.now(),
-    CHANNEL_ID: "IONPAYTEST01",
+    CHANNEL_ID: "NORMALTEST",
   }
 };
 let parameterToken = {
@@ -139,10 +139,11 @@ let parameterToken = {
 }
 
 let endPoint = '/api/v1.0/transfer-va/create-va'
+let httpMethod = `POST`
 snap.requestAccessToken(parameterToken)
 .then({res} => {
   let token = res.accessToken
-  return snap.requestSnapTransaction(parameter, endPoint, token)
+  return snap.requestSnapTransaction(parameter, endPoint, token, httpMethod)
 })
 .then((transaction) => {
   console.log(transaction);
