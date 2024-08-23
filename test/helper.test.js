@@ -1,5 +1,7 @@
 "use strict";
 const Helper = require("./../lib/helper");
+const Snap = require("../lib/snap")
+
 const cons = require("./sharedConfig");
 //this is just for testing, better keep your private key on Key Management System when use cloud or on Server in file format. 
 const privateKeyString = `-----BEGIN PRIVATE KEY-----
@@ -35,7 +37,7 @@ describe("helper.js", () => {
     let stringToSign = 'POST:/api/v1.0/transfer/registration:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJT05QQVlURVNUIiwiaXNzIjoiTklDRVBBWSIsIm5hbWUiOiJCQkJBIiwiZXhwIjoiMjAyMy0wMi0yMlQxMDo0MDowNloifQ==.nlrGKpV0lvwmUDTC94Y5KGnrACV1zdfSx7GrsrNruh8=:ec055a063eca97d1eb53e1ebc38cb8dfed4ce9f874b47c8214fb30250cfa9d44:2023-02-22T17:25:04+07:00'
     const signature = helper.getRegistSignature(stringToSign, cons.clientSecret)
     expect(signature).toEqual(expect.any(String));
-    expect(signature).toBe("O8D7P20kxMRdnLEnf0NEOxY0d5bQvSrKnl4fKvwklILJD9BJiQmZVX+yJTUVwb/EjDbwadQJmA0mAA8ol5IIuQ==");
+    expect(signature).toBe("i1cr9QK4IbAB4IK1DGmc60HxVqQMPNCQEDMeWIsJgXPOKP5VFjNDSTxWc7C72Yx7lD2+nCdO1dHChiVcIXcYIQ==");
   });
 
   it("able to get time now with snap format", () => {
@@ -66,4 +68,19 @@ describe("helper.js", () => {
     expect(convertDate).toEqual(expect.any(String));
     expect(convertDate).toBe("2023-02-20T12:00:00+07:00");
   });
+
+  it("is able to verify signature", async () => {
+    let snap = new Snap();
+
+    const signatureString = "VoxMPjbcV9pro4YyHGQgoRj4rDVJgYk2Ecxn+95B90w47Wnabtco35BfhGpR7a5RukUNnAdeOEBNczSFk4B9uYyu3jc+ceX+Dvz5OYSgSnw5CiMHtGiVnTAqCM/yHZ2MRpIEqekBc4BWMLVtexSWp0YEJjLyo9dZPrSkSbyLVuD7jkUbvmEpVdvK0uK15xb8jueCcDA6LYVXHkq/OMggS1/5mrLNriBhCGLuR7M7hBUJbhpOXSJJEy7XyfItTBA+3MRC2FLcvUpMDrn/wz1uH1+b9A6FP7mG0bRSBOm2BTLyf+xJR5+cdd88RhF70tNQdQxhqr4okVo3IFqlCz2FFg==";
+    const dataString = "TNICEVA023|2024-08-19T17:12:40+07:00";
+    const publicKeyString = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApizrKJl/1Legp3Zj8f0oTIjKnUWe2HJCBSoRsVLxtpf0Dr1MI+23y+AMNKKxVXxbvReZq/sD91uN4GFYMUr16LY9oX7nJXh9C1JlI4/Xb/Q9MF30o1XYvogHLATtvTR/KQ8hxrf6Nlj/yuzeqrT+PiQMZt1CaKiE6UMn36kq11DmDq4ocwcNhChKDudNZSZ4YYIFn5IgH05K+VsRjehpa0szbO8qHmvnprXVVcqvk7ZSS+6fYwDynOq0f552aL0LWX0glNhh9F0oJqmTreW4lM0mdhNDq4GhlJZl5IpaUiaGRM2Rz/t6spgwR7nqUhI9aE2kjzaorgP4ZWUGm3wlTwIDAQAB";
+
+    let isVerified = snap.helper.verifySHA256RSA(dataString, publicKeyString, signatureString)
+    
+    console.log("Is the signature valid? " + isVerified);
+    expect(isVerified).toBe(true);  // or whatever the expected outcome is
+});
+
+  
 });
