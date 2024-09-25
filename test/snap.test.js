@@ -28,7 +28,7 @@ const parameter = {
     },
     headers: {
       X_EXTERNAL_ID: Date.now(),
-      CHANNEL_ID: "NORMALTEST",
+      CHANNEL_ID: cons.clientId, 
     },
 }
 
@@ -49,7 +49,7 @@ let parameterDelete = {
   },
   headers: {
     X_EXTERNAL_ID: "",
-    CHANNEL_ID: "NORMALTEST",
+    CHANNEL_ID: cons.clientId,
   },
 }
 
