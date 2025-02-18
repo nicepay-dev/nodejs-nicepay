@@ -27,9 +27,7 @@ let nicepayClient = require("./nodejs-nicepay/index.js");
 
 We have one of payment that you can use:
 
-- [Snap](#22A-snap) - Customizable payment popup will appear on **your web/app** (no redirection). 
-
-
+- [Snap](#22A-snap) - Customizable payment popup will appear on **your web/app** (no redirection).
 
 ### 2.2 Client Initialization and Configuration
 
@@ -43,15 +41,17 @@ Create API client object
 const nicepayClient = require("nodejs-nicepay");
 // Create Snap API instance
 
-const privateKeyStr =`-----BEGIN PRIVATE KEY-----
+const privateKeyStr = `-----BEGIN PRIVATE KEY-----
 MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAInJe1G22R2fMchIE6BjtYRqyMj6lurP/zq6vy79WaiGKt0Fxs4q3Ab4ifmOXd97ynS5f0JRfIqakXDcV/e2rx9bFdsS2HORY7o5At7D5E3tkyNM9smI/7dk8d3O0fyeZyrmPMySghzgkR3oMEDW1TCD5q63Hh/oq0LKZ/4Jjcb9AgMBAAECgYA4Boz2NPsjaE+9uFECrohoR2NNFVe4Msr8/mIuoSWLuMJFDMxBmHvO+dBggNr6vEMeIy7zsF6LnT32PiImv0mFRY5fRD5iLAAlIdh8ux9NXDIHgyera/PW4nyMaz2uC67MRm7uhCTKfDAJK7LXqrNVDlIBFdweH5uzmrPBn77foQJBAMPCnCzR9vIfqbk7gQaA0hVnXL3qBQPMmHaeIk0BMAfXTVq37PUfryo+80XXgEP1mN/e7f10GDUPFiVw6Wfwz38CQQC0L+xoxraftGnwFcVN1cK/MwqGS+DYNXnddo7Hu3+RShUjCz5E5NzVWH5yHu0E0Zt3sdYD2t7u7HSr9wn96OeDAkEApzB6eb0JD1kDd3PeilNTGXyhtIE9rzT5sbT0zpeJEelL44LaGa/pxkblNm0K2v/ShMC8uY6Bbi9oVqnMbj04uQJAJDIgTmfkla5bPZRR/zG6nkf1jEa/0w7i/R7szaiXlqsIFfMTPimvRtgxBmG6ASbOETxTHpEgCWTMhyLoCe54WwJATmPDSXk4APUQNvX5rr5OSfGWEOo67cKBvp5Wst+tpvc6AbIJeiRFlKF4fXYTb6HtiuulgwQNePuvlzlt2Q8hqQ==
-  -----END PRIVATE KEY-----`
+  -----END PRIVATE KEY-----`;
 
 let snap = new nicepayClient.Snap({
   isProduction: false,
   privateKey: privateKeyStr,
   clientId: "IONPAYTEST",
-  clientSecret: "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==",
+  clientSecret:
+    "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==",
+  isCloudServer: false,
 });
 ```
 
@@ -68,6 +68,7 @@ snap.apiConfig.set({
   privateKey: "YOUR_PRIVATE_KEY",
   clientId: "YOUR_CLIENT_ID",
   clientSecret: "YOUR_CLIENT_SECRET",
+  isCloudServer: false,
 });
 
 // You don't have to re-set using all the options,
@@ -87,6 +88,7 @@ snap.apiConfig.isProduction = false;
 snap.apiConfig.privateKey = "YOUR_PRIVATE_KEY";
 snap.apiConfig.clientId = "YOUR_CLIENT_ID";
 snap.apiConfig.clientSecret = "YOUR_CLIENT_SECRET";
+snap.apiConfig.isCloudServer = false;
 ```
 
 ### 2.2.A Snap
@@ -101,7 +103,7 @@ requestSnapTransaction(parameter, endPoint, accessToken, httpMethod);
 requestSnapAccessToken(parameter);
 
 // return verify signature response as boolean
-helper.verifySHA256RSA(dataString, publicKeyString, signatureString)
+helper.verifySHA256RSA(dataString, publicKeyString, signatureString);
 ```
 
 `parameter` is Object or String of JSON of [SNAP Parameter]()
@@ -116,6 +118,7 @@ let snap = new nicepayClient.Snap({
   privateKey: "YOUR_SERVER_KEY",
   clientId: "YOUR_CLIENT_KEY",
   clientSecret: "YOUR_CLIENT_KEY",
+  isCloudServer: false
 });
 
 let parameter = {
@@ -156,7 +159,7 @@ snap.requestAccessToken(parameterToken)
 })
 .then((transaction) => {
   console.log(transaction);
-}); 
+});
 ```
 
 ### Cancel / Delete Virtual Account with Snap
@@ -199,19 +202,23 @@ snap.requestAccessToken(parameterToken)
 })
 .then((transaction) => {
   console.log(transaction);
-}); 
+});
 ```
 
-### Verify message / data signature SHA 256 RSA 
-```javascript 
-let snap = new Snap()
+### Verify message / data signature SHA 256 RSA
 
-const signatureString = "YOUR_SIGNATURE_IN STRING " // Ex : "VoxMPjbcV9pro4YyHGQgoRj4rDVJgYk2Ecxn+95B90w47Wnabtco35BfhGpR7a5RukUNnAdeOEBNczSFk4B9uYyu3jc+ceX+Dvz5OYSgSnw5CiMHtGiVnTAqCM/yHZ2MRpIEqekBc4BWMLVtexSWp0YEJjLyo9dZPrSkSbyLVuD7jkUbvmEpVdvK0uK15xb8jueCcDA6LYVXHkq/OMggS1/5mrLNriBhCGLuR7M7hBUJbhpOXSJJEy7XyfItTBA+3MRC2FLcvUpMDrn/wz1uH1+b9A6FP7mG0bRSBOm2BTLyf+xJR5+cdd88RhF70tNQdQxhqr4okVo3IFqlCz2FFg==";
-const dataString = "YOUR_DATA_TO_SIGN" // Ex: "TNICEVA023|2024-08-19T17:12:40+07:00";
-const publicKeyString = "PUBLIC_KEY_PEM"// Ex : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApizrKJl/1Legp3Zj8f0oTIjKnUWe2HJCBSoRsVLxtpf0Dr1MI+23y+AMNKKxVXxbvReZq/sD91uN4GFYMUr16LY9oX7nJXh9C1JlI4/Xb/Q9MF30o1XYvogHLATtvTR/KQ8hxrf6Nlj/yuzeqrT+PiQMZt1CaKiE6UMn36kq11DmDq4ocwcNhChKDudNZSZ4YYIFn5IgH05K+VsRjehpa0szbO8qHmvnprXVVcqvk7ZSS+6fYwDynOq0f552aL0LWX0glNhh9F0oJqmTreW4lM0mdhNDq4GhlJZl5IpaUiaGRM2Rz/t6spgwR7nqUhI9aE2kjzaorgP4ZWUGm3wlTwIDAQAB";
+```javascript
+let snap = new Snap();
 
-let isVerified = snap.helper.verifySHA256RSA(dataString, publicKeyString, signatureString)
+const signatureString = "YOUR_SIGNATURE_IN STRING "; // Ex : "VoxMPjbcV9pro4YyHGQgoRj4rDVJgYk2Ecxn+95B90w47Wnabtco35BfhGpR7a5RukUNnAdeOEBNczSFk4B9uYyu3jc+ceX+Dvz5OYSgSnw5CiMHtGiVnTAqCM/yHZ2MRpIEqekBc4BWMLVtexSWp0YEJjLyo9dZPrSkSbyLVuD7jkUbvmEpVdvK0uK15xb8jueCcDA6LYVXHkq/OMggS1/5mrLNriBhCGLuR7M7hBUJbhpOXSJJEy7XyfItTBA+3MRC2FLcvUpMDrn/wz1uH1+b9A6FP7mG0bRSBOm2BTLyf+xJR5+cdd88RhF70tNQdQxhqr4okVo3IFqlCz2FFg==";
+const dataString = "YOUR_DATA_TO_SIGN"; // Ex: "TNICEVA023|2024-08-19T17:12:40+07:00";
+const publicKeyString = "PUBLIC_KEY_PEM"; // Ex : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApizrKJl/1Legp3Zj8f0oTIjKnUWe2HJCBSoRsVLxtpf0Dr1MI+23y+AMNKKxVXxbvReZq/sD91uN4GFYMUr16LY9oX7nJXh9C1JlI4/Xb/Q9MF30o1XYvogHLATtvTR/KQ8hxrf6Nlj/yuzeqrT+PiQMZt1CaKiE6UMn36kq11DmDq4ocwcNhChKDudNZSZ4YYIFn5IgH05K+VsRjehpa0szbO8qHmvnprXVVcqvk7ZSS+6fYwDynOq0f552aL0LWX0glNhh9F0oJqmTreW4lM0mdhNDq4GhlJZl5IpaUiaGRM2Rz/t6spgwR7nqUhI9aE2kjzaorgP4ZWUGm3wlTwIDAQAB";
 
+let isVerified = snap.helper.verifySHA256RSA(
+  dataString,
+  publicKeyString,
+  signatureString
+);
 ```
 
 ## 3. Handling Error / Exception
@@ -245,7 +252,8 @@ let snap = new nicepayClient.Snap({
   isProduction: false,
   privateKet: "YOUR_PRIVATE_KEY",
   clientId: "YOUR_CLIENT_ID",
-  clientSecret:"YOUR_CLIENT_SECRET"
+  clientSecret: "YOUR_CLIENT_SECRET",
+  isCloudServer: false,
 });
 
 // set Axios timeout config to 2500
@@ -292,4 +300,3 @@ This library/package is mainly **NOT FOR FRONTEND** (Browser's javascript) usage
 - [NICEPAY Dashboard ](https://bo.nicepay.co.id/)
 - [SNAP documentation]()
 - Can't find answer you looking for? email to [cs@nicepay.co.id](mailto:cs@nicepay.co.id)
-
