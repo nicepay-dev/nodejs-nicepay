@@ -93,14 +93,12 @@ describe("config.js", () => {
       expect(res.responseMessage).toEqual(expect.any(String));
       expect(res.responseMessage).toBe("Successful");
       accessToken = res.accessToken;
-      console.log(res);
     });
   });
 
   it("able to request SNAP API", () => {
     let snap = new Snap(config);
     let endPoint = `/api/v1.0/transfer-va/create-va`;
-    // console.log(parameter);
     return snap
       .requestSnapTransaction(parameter, endPoint, accessToken, "POST")
       .then((res) => {
@@ -110,9 +108,6 @@ describe("config.js", () => {
         expect(res.responseMessage).toBe("Successful");
         virtualAccountNo = res.virtualAccountData.virtualAccountNo;
         tXidVA = res.virtualAccountData.additionalInfo.tXidVA;
-        // console.log(res);
-
-        // expect(res.virtualAccountData.virtualAccountNo).toEqual(expect.any(String));
       });
   });
 
@@ -121,7 +116,6 @@ describe("config.js", () => {
     let endPoint = `/api/v1.0/transfer-va/status`;
     paramCheckStatus.body.virtualAccountNo = virtualAccountNo;
     paramCheckStatus.body.additionalInfo.tXidVA = tXidVA;
-    // console.log(paramCheckStatus);
     return snap
       .requestSnapTransaction(paramCheckStatus, endPoint, accessToken, "POST")
       .then((res) => {
@@ -129,8 +123,6 @@ describe("config.js", () => {
         expect(res.responseCode).toBe("2002600");
         expect(res.responseMessage).toEqual(expect.any(String));
         expect(res.responseMessage).toBe("Successful");
-        // console.log(res);
-        // expect(res.virtualAccountData.virtualAccountNo).toEqual(expect.any(String));
       });
   });
 
