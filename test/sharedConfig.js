@@ -1,14 +1,18 @@
 const cons = {
   privateKey: `-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDRhJzc8cFbWnA5SAutDuWIbsXCLierH+g5nAAl0TY6zGu4UhTg1DI6+dxGvZU6aDYHVFqFdk4K6hhWOt2oW2q3Lpbt98bxDt5oMTI81DEEWPTZ1i3PYTLpki7GkqnO6DuVb5N5KbGIY9D1F37VAD00UCcDXySdVjFromvN/AnWTiwfDlzE+C2ImR/W0cFRR8m3bJz8D6VzVOOwSQ6bQtlQcNnzcp6+oA12JFr+Q7sernLlUaiforUYEJdeI/5x3TB2JzM7GP/DgoQzg8L9Rkvc749TmA/Moz43HqZtPIKUlMRK88Al6x6v7MRNZ20HEzIuJF4UQCLX3N291PDwBJvrAgMBAAECggEAAo5jo/iNbrzy5BeZJHL1cmAMqMdO9W6upWA8ZUcx2Vd737NnZ+lXRhKdES1av0OtzX4kf/TFV2eyEqH9pbF0dzlcZZ/p9JwB1MESYHg+s2D7uhbCcm1GAHsaNHfnTCbydNaZwjitDghOyCFA1WogzkxFT0P1RLfVi8lfF1c4E0uR7lQXAIIZxwSFEIw9UB1/fZF+ekhi11s0AIDoRGRWFYH9Z/9bil5t3qxv3YJiIQh9/1JTxFrxI/OMt45q/8SbCNgyOnu5jeCHwkTo1sk9L5yq7AkvXGR9N/qV7mMZepndSa7kHDV/mxbRYlEQtGf9hjm5iYOT0GdolFP033DIwQKBgQD7ozWK3SMeRcvUBkDUIvkWKzFAaWicDUTiCOQF4R0fLrnf42MjIuqRBUfv2G11N9wOjrVLlOfedht6jqMkfk8BZ8+4y1MxXGNeoxEI+65891u0gSdQO+jIaIxvYzqV4rmhUGMyNO/fZeZaBwOVhV5xDoE1arcqBlL7GI5PsTubPwKBgQDVJnkm+uQ8MsQJFH8CB6lIm2tn5pjb6ofalgzkhQrIGbzIwsX1U37QAXH72PNfXWwdFaoRkSRiyFvkRnqBjx2H5uMZU3G92Qp4HSz6vneqXGx9CkiziMFb12V0MzLElY3tZxhWnwrgd0kyGe2XeUKgzT2W+f7XMJ/y1upw+ZHwVQKBgGDubKiSKH33yt1gj0ZoNmUIvE8gi5BZOCiN3jA5l/s0B5urvruBLrQwQZatWvSlUNo2tLVppau2+TzLhyJ+mTZkY8q+X8yK1yhUTjKUqJEww52Thq5MdY4FX9tkcOPd0z3FdoCXjbMTUJlrTEEjf86zFKib8/R3PS3GNsOR9PEHAoGBAKqh0frSfkNyoFxkfAgz+eCWCrVydIwYhAkIdem6V5c4g1h0E+UAolQB1C24z5tYPmRKI4tMlcQ+gNGNWiS9XPaebs6nbjZ8uVTOhmN0dnd65Z5zzR9sKt5K4HzVP57/2k5iaaluSFbJJ19kQj8wY5Y2t0dVehzqYCEWyzcFkz7BAoGACTytLGrVmcU6GR4xM7OwRSw5oT8ILW9iuAXtBSB1kXPHeuUhJ3syA4RDhaRsVPSEmqTBNWWNoRagLj6oU7UJNCAlnrOg73LM1vUfwYwrYn1g+KHIs+/hP7SqdlipwiNucGLxyGFz14auw85g5mHWrW/6nB+oEnHDOhfgzByKPVo=
 -----END PRIVATE KEY-----`,
-  clientId: "",
+  clientId: "IONPAYTEST",
   SNAP_DEV_BASE_URL: "https://dev.nicepay.co.id/nicepay",
   SNAP_PROD_BASE_URL: "https://www.nicepay.co.id/nicepay",
   SNAP_DEV_CLOUD_BASE_URL: "https://dev-services.nicepay.co.id/nicepay",
-  SNAP_PROD_CLOUD_BASE_URL: "https://services.nicepay.co.id/nicepay",
-  clientSecret: "",
+  SNAP_PROD_CLOUD_BASE_URL: "https://services.nicepay.co.id/nicepa7y",
+  clientSecret:
+    "1af9014925cab04606b2e77a7536cb0d5c51353924a966e503953e010234108a",
   merchantId: "",
   publicKeyString: "",
+  merchantKey:
+    "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==",
 };
 
 module.exports = cons;

@@ -27,7 +27,8 @@ let nicepayClient = require("./nodejs-nicepay/index.js");
 
 We have one of payment that you can use:
 
-- [Snap](#22A-snap) - Customizable payment popup will appear on **your web/app** (no redirection).
+- [Snap] - Customizable payment popup will appear on **your web/app** (no redirection).
+- [API Version 2] - New version of API NICEPAY but doesn't used SNAP (NICEPAY payment page & merchant payment page).
 
 ### 2.2 Client Initialization and Configuration
 
@@ -73,7 +74,7 @@ snap.apiConfig.set({
 
 // You don't have to re-set using all the options,
 // i.e. set privateKey only
-snap.apiConfig.set({ privateKey: "YOUR_PRIVATE_KEY" });
+snap.apiConfig.setConfiguration({ privateKey: "YOUR_PRIVATE_KEY" });
 ```
 
 You can also set config directly from attribute
@@ -199,6 +200,95 @@ snap.requestAccessToken(parameterToken)
 .then({res} => {
   let token = res.accessToken
   return snap.requestSnapTransaction(parameter, endPoint, token, httpMethod)
+})
+.then((transaction) => {
+  console.log(transaction);
+});
+```
+
+### 2.2.A Snap
+
+Available methods for `SecondApiVersion` class.
+
+```javascript
+// return API /transaction response as Promise of Object
+requestAPI(parameter, endPoint);
+
+// return API /transaction response as Promise of HTML
+requestPayment(parameter);
+```
+
+`parameter` is Object or String of JSON of [API Parameter]()
+
+#### Register and Payment Credit Card with API Version 2
+
+```javascript
+const nicepayClient = require("nodejs-nicepay");
+// Create Snap API instance
+let secondVersion = new nicepayClient.SecondApiVersion({
+  isProduction: false,
+  privateKey: "YOUR_SERVER_KEY",
+  clientId: "YOUR_CLIENT_KEY",
+  clientSecret: "YOUR_CLIENT_KEY",
+  isCloudServer: false,
+  merchantKey: "YOUR_MERCHANT_KEY",
+});
+
+const parameter = {
+  payMethod: "01",
+  currency: "IDR",
+  amt: "10000",
+  referenceNo: "ord12320250409170492",
+  goodsNm: "Test Transaction Nicepay",
+  billingNm: "Arya Widya",
+  billingPhone: "082168349939",
+  billingEmail: "aryawdy16@gmail.com",
+  billingAddr: "Jalan Cempaka Putih Barat XI",
+  billingCity: "Jakarta",
+  billingState: "DKI Jakarta",
+  billingPostCd: "10520",
+  billingCountry: "Indonesia",
+  description: "test cc",
+  deliveryNm: "John Doe",
+  deliveryPhone: "0851731575341",
+  deliveryAddr: "Jalan Cempaka Putih Barat XI",
+  deliveryCity: "Jakarta",
+  deliveryState: "DKI Jakarta",
+  deliveryPostCd: "10520",
+  deliveryCountry: "Indonesia",
+  dbProcessUrl:
+    "https://httpdump.app/dumps/fa101255-f007-43f6-9ce2-b581c2b645a3",
+  userIP: "127.0.0.1",
+  cartData:
+    '{"count":3,"item":[{"goods_id":30,"goods_name":"Beanie","goods_type":"Accessories","goods_amt":1000,"goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":1,"goods_url":"http://www.nicestore.com/product/beanie/"},{"goods_id":31,"goods_name":"Belt","goods_type":"Accessories","goods_amt":5000,"goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":1,"goods_url":"http://www.nicestore.store/product/belt/"},{"img_url":"http://www.jamgora.com/media/avatar/noimage.png","goods_name":"Shipping Fee","goods_id":"Shipping for Ref. No. 278","goods_detail":"Flat rate","goods_type":"Shipping with Flat rate","goods_amt":"4000","goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":"1","goods_url":"https://wwww.nicestore.store"}]}',
+  sellers:
+    '[{"sellersId":"NICEPAY-NamaMerchant","sellersNm":"NICEPAYSHOP","sellersUrl":"http://nicestore.store/product/beanie/","sellersEmail":"Nicepay@nicepay.co.id","sellersAddress":{"sellerNm":"NICEPAYSHOP","sellerLastNm":"NICEPAYSHOP","sellerAddr":"Jln. Kasablanka Kav 88","sellerCity":"Jakarta","sellerPostCd":"14350","sellerPhone":"082111111111","sellerCountry":"ID"}}]',
+  bankCd: "CENA",
+  userAgent: "Mozilla",
+  mitraCd: "OVOE",
+  instmntMon: "1",
+  instmntType: "1",
+  shopId: "",
+};
+
+let parameterPayment = {
+  amt: "10000",
+  referenceNo: "ord12320250409170492",
+  tXid: tXid,
+  cardNo: "4516176337289748",
+  callBackUrl: "https://dev.nicepay.co.id/IONPAY_CLIENT/paymentResult.jsp",
+  cardExpYymm: "2609",
+  cardCvv: "123",
+  recurringToken: "",
+  cardHolderNm: "Arya",
+  preauthToken: "",
+  cardHolderEmail: "",
+};
+
+let endPoint = '/direct/v2/registration'
+secondVersion.requestAPI(parameter, endPoint)
+.then({res} => {
+  return secondVersion.requestPayment(parameterPayment)
 })
 .then((transaction) => {
   console.log(transaction);
