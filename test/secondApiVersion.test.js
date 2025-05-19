@@ -12,7 +12,7 @@ const config = {
 };
 
 const parameter = {
-  payMethod: "01",
+  payMethod: "02",
   currency: "IDR",
   amt: "10000",
   referenceNo: "ord12320250409170492",
@@ -48,8 +48,45 @@ const parameter = {
   shopId: "",
 };
 
-let tXid;
-let referenceNo;
+let parameterRegistPayout = {
+  "msId":         "",
+		"accountNo":    "5345000060",
+		"benefNm":      "PT IONPAY NETWORKS",
+		"benefStatus":  "1",
+		"benefType":    "1",
+		"bankCd":       "BDIN",
+		"amt":          "10000",
+		"referenceNo":  "ORD12345",
+		"reservedDt":   "",
+		"reservedTm":   "",
+		"benefPhone":   "082111111111",
+		"description":  "This is test request",
+		"payoutMethod": ""
+}
+
+let parameterBalanceInquiry = {}
+
+let parameterApproveBalance = {
+  "tXid": "IONPAYTEST07202505191401339529",
+}
+let parameterInquiryPayout = {
+  "tXid":      "IONPAYTEST07202505191401339529",
+	"accountNo": "5345000060",
+}
+let parameterCancel = {
+  "tXid":           "TNICEVA02302202505191431551086",
+		"payMethod":      "02",
+		"amt":            "10000",
+		"cancelType":     "1",
+		"cancelMsg":      "Testing Cancel Of Virtual Account",
+		"cancelUserId":   "",
+		"cancelUserIp":   "127.0.0.1",
+		"cancelServerIp": "127.0.0.1",
+		"cancelUserInfo": "",
+		"cancelRetryCnt": "",
+		"worker":         "",
+}
+
 
 describe("config.js", () => {
   it("able to start test", () => {
@@ -62,14 +99,105 @@ describe("config.js", () => {
     return secondVersion
       .requestAPI(parameter, "/direct/v2/registration")
       .then((res) => {
-        console.log(res);
+        console.log(res)
         expect(res.resultCd).toEqual(expect.any(String));
         expect(res.resultCd).toBe("0000");
         expect(res.resultMsg).toEqual(expect.any(String));
-        tXid = res.tXid;
-        // referenceNo = res.referenceNo;
-        //   virtualAccountNo = res.virtualAccountData.virtualAccountNo;
-        //   tXidVA = res.virtualAccountData.additionalInfo.tXidVA;
+      });
+  });
+
+   it("able to request Register API Checkout", () => {
+    let secondVersion = new SecondApiVersion(config);
+    parameter.callBackUrl='https://nicepay.co.id';
+    return secondVersion
+      .requestAPI(parameter, "/redirect/v2/registration")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+      });
+  });
+
+   it("able to request Inquiry API", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestAPI(parameter, "/direct/v2/inquiry")
+      .then((res) => {
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+      });
+  });
+
+   it("able to request Cancel API", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestAPI(parameterCancel, "/direct/v2/cancel")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+      });
+  });
+  
+  it("able to request Payout API Regist", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestPayoutAPI(parameterRegistPayout, "/api/direct/v2/requestPayout")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+  
+      });
+  });
+
+
+  it("able to request Payout API Inquiry", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestPayoutAPI(parameterInquiryPayout, "/api/direct/v2/inquiryPayout")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+  
+      });
+  });
+
+  it("able to request Payout API Check Balance", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestPayoutAPI(parameterBalanceInquiry, "/api/direct/v2/balanceInquiry")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+  
+      });
+  });
+
+  it("able to request Payout API Approve", () => {
+    let secondVersion = new SecondApiVersion(config);
+
+    return secondVersion
+      .requestPayoutAPI(parameterApproveBalance, "/api/direct/v2/approvePayout")
+      .then((res) => {
+        console.log(res)
+        expect(res.resultCd).toEqual(expect.any(String));
+        expect(res.resultCd).toBe("0000");
+        expect(res.resultMsg).toEqual(expect.any(String));
+  
       });
   });
 
@@ -89,8 +217,7 @@ describe("config.js", () => {
       cardHolderEmail: "",
     };
     return secondVersion.requestPayment(parameterPayment).then((res) => {
-      console.log(res);
-      console.log(tXid);
+      console.log(res)
     });
   });
 });
