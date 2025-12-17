@@ -11,15 +11,16 @@ describe("helper.js", () => {
     expect(true).toBe(true);
   });
 
-  it("able sign data with string rivate key", () => {
+  it("able sign data with string private key", () => {
     let helper = new Helper();
     const signature = helper.getSignatureAccessToken(
       privateKeyString,
       `IONPAYTEST|2023-02-22T14:43:27+07:00`
     );
     expect(signature).toEqual(expect.any(String));
+    console.log("Signature :" + signature);
     expect(signature).toBe(
-      "H0SI/1ArKnqoNdKeeO0KD+3RVuhoE7/xvQ6uBWksAqf033vAIQIrXIjVRfCEqSHzSWjRkUYeaYhJ12YEQvG3zjaF6jQZEYEdTeFSw/RTEdwXCnjfZMN+MyTEPoB3UE51dVAMRFUSwhVEHirn/ucND2OKiPCj7qy7CQa8DWNq3/M="
+      "X5TttEh3X4wOkp5zsoxptZHewaOQEXvCKdTFVS25h77kCj3njuTlFqG0mLqG9ytTG6mONf9xOXtE0t4hjjHyvnB5647Z/pM7kHwMcXZoxhldWG/IdSAk6iFmE6tGGVn0zrPY64Ck7sCS3XDUJkadZEY5Y2MFQmTYA6j9qn+4x4kqcQNtDxeyQLzfy/c9heW0pNSabOmXU7WdXjwyWGMpR3FCJsB+E+18k20yYpXBUdkJsbIFfSZoR45E6hmnmhmP6d0bQHz3rP9P3ouFU12MFcbxQreIlaMviUQIFAhA1SjQnD8TmHZGgRCmrxzXDKyPoEHCR+baAhzxOYRNRZg7+Q=="
     );
   });
 
@@ -33,7 +34,7 @@ describe("helper.js", () => {
     const encodePayload = helper.getEncodePayload(requestBody);
     expect(encodePayload).toEqual(expect.any(String));
     expect(encodePayload).toBe(
-      "14cfc0aa062edc5154e97839b97840208a20c4d25a1fc2d3dc5e4053c39d091a"
+      "a657c5a49944032c4b066ca70d872a788c38a13528e2567f8ad952356b90e435"
     );
   });
 
@@ -84,9 +85,9 @@ describe("helper.js", () => {
     let snap = new Snap();
 
     const signatureString =
-      "VoxMPjbcV9pro4YyHGQgoRj4rDVJgYk2Ecxn+95B90w47Wnabtco35BfhGpR7a5RukUNnAdeOEBNczSFk4B9uYyu3jc+ceX+Dvz5OYSgSnw5CiMHtGiVnTAqCM/yHZ2MRpIEqekBc4BWMLVtexSWp0YEJjLyo9dZPrSkSbyLVuD7jkUbvmEpVdvK0uK15xb8jueCcDA6LYVXHkq/OMggS1/5mrLNriBhCGLuR7M7hBUJbhpOXSJJEy7XyfItTBA+3MRC2FLcvUpMDrn/wz1uH1+b9A6FP7mG0bRSBOm2BTLyf+xJR5+cdd88RhF70tNQdQxhqr4okVo3IFqlCz2FFg==";
-    const dataString = "TNICEVA023|2024-08-19T17:12:40+07:00";
-    const publicKeyString = cons.publicKeyString; // string public key
+      "X5TttEh3X4wOkp5zsoxptZHewaOQEXvCKdTFVS25h77kCj3njuTlFqG0mLqG9ytTG6mONf9xOXtE0t4hjjHyvnB5647Z/pM7kHwMcXZoxhldWG/IdSAk6iFmE6tGGVn0zrPY64Ck7sCS3XDUJkadZEY5Y2MFQmTYA6j9qn+4x4kqcQNtDxeyQLzfy/c9heW0pNSabOmXU7WdXjwyWGMpR3FCJsB+E+18k20yYpXBUdkJsbIFfSZoR45E6hmnmhmP6d0bQHz3rP9P3ouFU12MFcbxQreIlaMviUQIFAhA1SjQnD8TmHZGgRCmrxzXDKyPoEHCR+baAhzxOYRNRZg7+Q==";
+    const dataString = "IONPAYTEST|2023-02-22T14:43:27+07:00";
+    const publicKeyString = cons.publicKey; // string public key
 
     let isVerified = snap.helper.verifySHA256RSA(
       dataString,
@@ -94,6 +95,6 @@ describe("helper.js", () => {
       signatureString
     );
 
-    expect(isVerified).toBe(true); // or whatever the expected outcome is
+    expect(isVerified).toBe(true);
   });
 });
