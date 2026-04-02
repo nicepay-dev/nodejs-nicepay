@@ -29,6 +29,7 @@ We have one of payment that you can use:
 
 - [Snap] - Customizable payment popup will appear on **your web/app** (no redirection).
 - [API Version 2] - New version of API NICEPAY but doesn't used SNAP (NICEPAY payment page & merchant payment page).
+- [API Version 1] - Old version of API NICEPAY (NICEPAY payment page / Professional API & merchant payment page / Enterprise API).
 
 ### 2.2 Client Initialization and Configuration
 
@@ -43,15 +44,14 @@ const nicepayClient = require("nodejs-nicepay");
 // Create Snap API instance
 
 const privateKeyStr = `-----BEGIN PRIVATE KEY-----
-MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAInJe1G22R2fMchIE6BjtYRqyMj6lurP/zq6vy79WaiGKt0Fxs4q3Ab4ifmOXd97ynS5f0JRfIqakXDcV/e2rx9bFdsS2HORY7o5At7D5E3tkyNM9smI/7dk8d3O0fyeZyrmPMySghzgkR3oMEDW1TCD5q63Hh/oq0LKZ/4Jjcb9AgMBAAECgYA4Boz2NPsjaE+9uFECrohoR2NNFVe4Msr8/mIuoSWLuMJFDMxBmHvO+dBggNr6vEMeIy7zsF6LnT32PiImv0mFRY5fRD5iLAAlIdh8ux9NXDIHgyera/PW4nyMaz2uC67MRm7uhCTKfDAJK7LXqrNVDlIBFdweH5uzmrPBn77foQJBAMPCnCzR9vIfqbk7gQaA0hVnXL3qBQPMmHaeIk0BMAfXTVq37PUfryo+80XXgEP1mN/e7f10GDUPFiVw6Wfwz38CQQC0L+xoxraftGnwFcVN1cK/MwqGS+DYNXnddo7Hu3+RShUjCz5E5NzVWH5yHu0E0Zt3sdYD2t7u7HSr9wn96OeDAkEApzB6eb0JD1kDd3PeilNTGXyhtIE9rzT5sbT0zpeJEelL44LaGa/pxkblNm0K2v/ShMC8uY6Bbi9oVqnMbj04uQJAJDIgTmfkla5bPZRR/zG6nkf1jEa/0w7i/R7szaiXlqsIFfMTPimvRtgxBmG6ASbOETxTHpEgCWTMhyLoCe54WwJATmPDSXk4APUQNvX5rr5OSfGWEOo67cKBvp5Wst+tpvc6AbIJeiRFlKF4fXYTb6HtiuulgwQNePuvlzlt2Q8hqQ==
+YOUR_PRIVATE_KEY
   -----END PRIVATE KEY-----`;
 
 let snap = new nicepayClient.Snap({
   isProduction: false,
   privateKey: privateKeyStr,
   clientId: "IONPAYTEST",
-  clientSecret:
-    "33F49GnCMS1mFYlGXisbUDzVf2ATWCl9k3R++d5hDd3Frmuos/XLx8XhXpe+LDYAbpGKZYSwtlyyLOtS/8aD7A==",
+  clientSecret: "YOUR_CLIENT_SECRET",
   isCloudServer: false,
 });
 ```
@@ -206,7 +206,7 @@ snap.requestAccessToken(parameterToken)
 });
 ```
 
-### 2.2.A Snap
+### 2.2.B V2 API
 
 Available methods for `SecondApiVersion` class.
 
@@ -294,6 +294,102 @@ secondVersion.requestAPI(parameter, endPoint)
   console.log(transaction);
 });
 ```
+
+### 2.2.C V1 API
+
+Available methods for `FirstApiVersion` class.
+
+```javascript
+// return API /transaction response as Promise of Object
+requestAPI(parameter, endPoint);
+```
+
+`parameter` is Object or String of JSON of [API Parameter]()
+
+#### Register Virtual Account with API Version 1
+
+```javascript
+const nicepayClient = require("nodejs-nicepay");
+// Create V1 API instance
+let firstVersion = new nicepayClient.FirstApiVersion({
+  isProduction: false, // Set true if using Nicepay Prod environment
+  clientId: "YOUR_CLIENT_KEY",
+  isCloudServer: false,
+  merchantKey: "YOUR_MERCHANT_KEY",
+});
+
+const endpointUtils = nicepayClient.EndpointUtils;
+
+const parameter = {
+  payMethod: "02",
+  currency: "IDR",
+  amt: "10000",
+  referenceNo: "ord12320250409170492",
+  goodsNm: "Test Transaction Nicepay",
+  billingNm: "Arya Widya",
+  billingPhone: "082168349939",
+  billingEmail: "aryawdy16@gmail.com",
+  billingAddr: "Jalan Cempaka Putih Barat XI",
+  billingCity: "Jakarta",
+  billingState: "DKI Jakarta",
+  billingPostCd: "10520",
+  billingCountry: "Indonesia",
+  description: "test cc",
+  deliveryNm: "John Doe",
+  deliveryPhone: "0851731575341",
+  deliveryAddr: "Jalan Cempaka Putih Barat XI",
+  deliveryCity: "Jakarta",
+  deliveryState: "DKI Jakarta",
+  deliveryPostCd: "10520",
+  deliveryCountry: "Indonesia",
+  dbProcessUrl:
+    "https://httpdump.app/dumps/fa101255-f007-43f6-9ce2-b581c2b645a3",
+  userIP: "127.0.0.1",
+  cartData:
+    '{"count":3,"item":[{"goods_id":30,"goods_name":"Beanie","goods_type":"Accessories","goods_amt":1000,"goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":1,"goods_url":"http://www.nicestore.com/product/beanie/"},{"goods_id":31,"goods_name":"Belt","goods_type":"Accessories","goods_amt":5000,"goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":1,"goods_url":"http://www.nicestore.store/product/belt/"},{"img_url":"http://www.jamgora.com/media/avatar/noimage.png","goods_name":"Shipping Fee","goods_id":"Shipping for Ref. No. 278","goods_detail":"Flat rate","goods_type":"Shipping with Flat rate","goods_amt":"4000","goods_sellers_id":"NICEPAY-NamaMerchant","goods_sellers_name":"NICEPAYSHOP","goods_quantity":"1","goods_url":"https://wwww.nicestore.store"}]}',
+  sellers:
+    '[{"sellersId":"NICEPAY-NamaMerchant","sellersNm":"NICEPAYSHOP","sellersUrl":"http://nicestore.store/product/beanie/","sellersEmail":"Nicepay@nicepay.co.id","sellersAddress":{"sellerNm":"NICEPAYSHOP","sellerLastNm":"NICEPAYSHOP","sellerAddr":"Jln. Kasablanka Kav 88","sellerCity":"Jakarta","sellerPostCd":"14350","sellerPhone":"082111111111","sellerCountry":"ID"}}]',
+  bankCd: "CENA",
+  userAgent: "Mozilla",
+  mitraCd: "",
+  instmntMon: "1",
+  instmntType: "1",
+  shopId: "",
+};
+
+firstVersion
+  .requestAPI(parameter, enpointUtils.V1.ENTERPRISE_ONE_PASS)
+  .then((res) => {
+    console.log("Response Register VA:");
+    console.log(res);
+    const virtualAccountNo = res.bankVacctNo;
+  });
+```
+
+### Endpoint Utils
+
+Utility constants that contain NICEPay API endpoint paths.
+These endpoints are grouped by API version to keep usage clean and consistent.
+
+#### Import
+
+```js
+const nicepayClient = require("nodejs-nicepay");
+const endpointUtils = nicepayClient.EndpointUtils;
+```
+
+#### Usage
+
+```js
+const endpoint = endpointUtils.V1.ENTERPRISE_ONE_PASS_DO;
+
+// example
+firstVersion.requestAPI(parameter, endpoint).then((res) => {
+  const virtualAccountNo = res.bankVacctNo;
+});
+```
+
+> All endpoint values are immutable (`Object.freeze`) to prevent accidental modification.
 
 ### Verify message / data signature SHA 256 RSA
 
